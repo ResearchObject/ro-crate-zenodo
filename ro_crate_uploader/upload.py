@@ -4,7 +4,8 @@ from zenodo_client import Creator, Metadata, ensure_zenodo
 
 
 def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
-    """Given an RO-Crate author or list of authors, build a list of "creators" to use in Zenodo upload."""
+    """Given an RO-Crate author or list of authors, build a list of "creators"
+    to use in Zenodo upload."""
     if isinstance(authors, list):
         return [Creator(name=a["name"]) for a in authors]
     else:
@@ -41,12 +42,15 @@ def ensure_crate_zipped(crate: ROCrate) -> str:
 
 
 def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
+    """Upload a zipped crate and its metadata to Zenodo.
+    This will publish a record when run, so it's recommended to keep sandbox=True
+    until a publish toggle is added to zenodo-client."""
     res = ensure_zenodo(
         key="ro-crate-uploader",  # this is a unique key you pick that will be used to store
         # the numeric deposition ID on your local system's cache
         data=metadata,
         paths=[
-            zip_path,
+            crate_zip_path,
         ],
         sandbox=True,  # remove this when you're ready to upload to real Zenodo
     )

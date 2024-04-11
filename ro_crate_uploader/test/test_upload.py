@@ -5,7 +5,6 @@ from ro_crate_uploader.upload import (
 from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
 from unittest import TestCase
-from zenodo_client import Metadata
 
 
 class TestUpload(TestCase):
@@ -57,3 +56,39 @@ class TestUpload(TestCase):
         # Assert
         self.assertEqual(len(result), len(expected))
         self.assertDictEqual(expected[0], result[0].model_dump())
+
+    def test_build_zenodo_creator_list__multiple_authors(self):
+        authors = [
+            Person(
+                crate=None,
+                identifier="https://orcid.org/0000-0000-0000-0000",
+                properties={"name": "Jane Smith", "affiliation": None},
+            ),
+            Person(
+                crate=None,
+                identifier="https://orcid.org/0000-0000-0000-0001",
+                properties={"name": "John Smith", "affiliation": None},
+            ),
+        ]
+        expected = [
+            {
+                "name": "Jane Smith",
+                "affiliation": None,
+                "orcid": None,
+                "gnd": None,
+            },
+            {
+                "name": "John Smith",
+                "affiliation": None,
+                "orcid": None,
+                "gnd": None,
+            },
+        ]
+
+        # Act
+        result = build_zenodo_creator_list(authors)
+
+        # Assert
+        self.assertEqual(len(result), len(expected))
+        for i in range(len(result)):
+            self.assertDictEqual(expected[i], result[i].model_dump())
