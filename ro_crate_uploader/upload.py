@@ -36,18 +36,22 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
 
 def ensure_crate_zipped(crate: ROCrate) -> str:
     """Returns a path to the zipped crate."""
-    zip_path = f"/tmp/crate.zip"
+    # TODO - use original crate path if it was a zip
+    # TODO - save zipped crate to crate parent directory
+    zip_path = "/tmp/crate.zip"
     zipped = crate.write_zip(zip_path)
     return zipped
 
 
 def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
     """Upload a zipped crate and its metadata to Zenodo.
-    This will publish a record when run, so it's recommended to keep sandbox=True
-    until a publish toggle is added to zenodo-client."""
+
+    This will publish a record when run, so it's recommended to keep
+    sandbox=True until a publish toggle is added to zenodo-client."""
     res = ensure_zenodo(
-        key="ro-crate-uploader",  # this is a unique key you pick that will be used to store
+        # this is a unique key you pick that will be used to store
         # the numeric deposition ID on your local system's cache
+        key="ro-crate-uploader",
         data=metadata,
         paths=[
             crate_zip_path,
