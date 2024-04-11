@@ -54,8 +54,9 @@ def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
     return res.json()
 
 
+# included for convenience, remove or update this as code expands
 if __name__ == "__main__":
-    crate_path = "test/test-data/crate1"
+    crate_path = "test/test_data/demo_crate"
     crate = ROCrate(crate_path)
 
     metadata = build_zenodo_metadata_from_crate(crate)

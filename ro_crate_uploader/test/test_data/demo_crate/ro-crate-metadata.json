@@ -20,7 +20,7 @@
             "name": "Demo Crate",
             "description": "a demo crate for Galaxy training",
             "datePublished": "2024-03-08",
-            "publisher": "https://ror.org/027m9bs27",
+            "publisher": "https://ror.org/0abcdef00",
             "license": {
                 "@id": "http://spdx.org/licenses/CC0-1.0",
                 "@type": "CreativeWork",
@@ -29,7 +29,7 @@
                 "url": "https://creativecommons.org/publicdomain/zero/1.0/"
             },
             "author": {
-                "@id": "https://orcid.org/0000-0002-0035-6475"
+                "@id": "https://orcid.org/0000-0000-0000-0000"
             },
             "hasPart": [
                 {
@@ -51,18 +51,18 @@
             }
         },
         {
-            "@id": "https://orcid.org/0000-0002-0035-6475",
+            "@id": "https://orcid.org/0000-0000-0000-0000",
             "@type": "Person",
-            "name": "Eli Chadwick",
+            "name": "Jane Smith",
             "affiliation": {
-                "@id": "https://ror.org/027m9bs27"
+                "@id": "https://ror.org/0abcdef00"
             }
         },
         {
-            "@id": "https://ror.org/027m9bs27",
+            "@id": "https://ror.org/0abcdef00",
             "@type": "Organization",
-            "name": "The University of Manchester",
-            "url": "https://www.manchester.ac.uk"
+            "name": "Example University",
+            "url": "https://www.example.org"
         }
     ]
 }
