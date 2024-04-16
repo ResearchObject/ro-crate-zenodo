@@ -3,8 +3,10 @@ from unittest import TestCase
 from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
 
-from ro_crate_uploader.upload import (build_zenodo_creator_list,
-                                      build_zenodo_metadata_from_crate)
+from ro_crate_uploader.upload import (
+    build_zenodo_creator_list,
+    build_zenodo_metadata_from_crate,
+)
 
 
 class TestUpload(TestCase):
