@@ -2,6 +2,7 @@ import json
 from pydantic_core import ValidationError
 from rocrate.rocrate import ROCrate
 from rocrate.model.person import Person
+from __future__ import annotations
 from zenodo_client import Creator, Metadata, ensure_zenodo
 
 
