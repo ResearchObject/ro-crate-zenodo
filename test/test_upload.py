@@ -22,8 +22,8 @@ class TestUpload(TestCase):
             "creators": [
                 {
                     "name": "Jane Smith",
-                    "affiliation": None,
-                    "orcid": None,
+                    "affiliation": "<https://ror.org/0abcdef00 Organization>",
+                    "orcid": "0000-0000-0000-0000",
                     "gnd": None,
                 }
             ],
