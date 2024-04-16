@@ -8,7 +8,7 @@ from unittest import TestCase
 
 
 class TestUpload(TestCase):
-    def test_build_zenodo_metadata_from_crate(self):
+    def test_build_zenodo_metadata(self):
         # Arrange
         crate_path = "test/test_data/demo_crate"
         crate = ROCrate(crate_path)
@@ -34,6 +34,38 @@ class TestUpload(TestCase):
 
         # Assert
         self.assertDictEqual(expected, result_select)
+
+    def test_build_zenodo_metadata_fails_with_invalid_data(self):
+        # Arrange
+        crate_path = "test/test_data/invalid_data_crate"
+        crate = ROCrate(crate_path)
+
+        expected = {
+            "title": "Demo Crate",
+            "upload_type": "dataset",
+            "description": "a demo crate for Galaxy training",
+            "creators": [
+                {
+                    "name": "Jane Smith",
+                    "affiliation": None,
+                    "orcid": None,
+                    "gnd": None,
+                }
+            ],
+        }
+
+        # Act
+        with self.assertRaises(RuntimeError) as cm:
+            build_zenodo_metadata_from_crate(crate)
+
+        # Assert
+        message = str(cm.exception)
+        self.assertIn(
+            "The RO-Crate metadata could not be converted to Zenodo metadata",
+            message,
+        )
+        self.assertIn("title", message)
+        self.assertIn("description", message)
 
     def test_build_zenodo_creator_list__single_author(self):
         authors = Person(

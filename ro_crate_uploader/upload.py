@@ -1,3 +1,5 @@
+import json
+from pydantic_core import ValidationError
 from rocrate.rocrate import ROCrate
 from rocrate.model.person import Person
 from zenodo_client import Creator, Metadata, ensure_zenodo
@@ -24,12 +26,25 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
     description = crate.root_dataset.get("description")
 
     # Define the metadata that will be used on initial upload
-    data = Metadata(
-        title=title,
-        upload_type="dataset",
-        description=description,
-        creators=creators,
-    )
+    # Metadata is a Pydantic model that provides some type validation
+    try:
+        data = Metadata(
+            title=title,
+            upload_type="dataset",
+            description=description,
+            creators=creators,
+        )
+    except ValidationError as exception:
+        errors = json.loads(exception.json())
+        msg = (
+            "The RO-Crate metadata could not be converted to Zenodo metadata. "
+            "Encountered the following errors:\n"
+        )
+        for e in errors:
+            # TODO: replace Metadata field with corresponding RO-Crate field
+            field = ", ".join(e["loc"])
+            msg += f"Field {field}: {e['msg']}\n"
+        raise RuntimeError(msg)
 
     return data
 
