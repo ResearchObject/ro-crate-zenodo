@@ -8,55 +8,51 @@ from ro_crate_uploader.upload import (
     build_zenodo_creator_list,
 )
 
-person_with_id_orcid = {
-    "identifier": "https://orcid.org/0000-0000-0000-0000",
-    "properties": {
-        "affiliation": "Test University",
-        "name": "ORCID Person",
+people = [
+    # person with id as ORCID
+    {
+        "identifier": "https://orcid.org/0000-0000-0000-0000",
+        "properties": {
+            "affiliation": "Test University",
+            "name": "ORCID Person",
+        },
     },
-}
-
-person_with_id_uri = {
-    "identifier": "https://example.org",
-    "properties": {
-        "affiliation": "Test University",
-        "name": "URI Person",
+    # person with id as URI
+    {
+        "identifier": "https://example.org",
+        "properties": {
+            "affiliation": "Test University",
+            "name": "URI Person",
+        },
     },
-}
-
-person_with_id_local = {
-    "identifier": "#local_person",
-    "properties": {
-        "affiliation": "Test University",
-        "name": "Local Person",
+    # person with id as local identifier
+    {
+        "identifier": "#local_person",
+        "properties": {
+            "affiliation": "Test University",
+            "name": "Local Person",
+        },
     },
-}
-
-person_with_id_name = {"identifier": "Named Person"}
-
-person_with_id_blank = {
-    "identifier": "_:blank_person",
-}
-
-person_with_intl_chars = {
-    "identifier": "https://orcid.org/0000-0000-0000-0001",
-    "properties": {
-        "affiliation": "Test University",
-        "name": "Ãệïøù Person",
+    # person with id as a name, and no other info
+    {"identifier": "Named Person"},
+    # person with id as blank node identifier
+    {
+        "identifier": "_:blank_person",
     },
-}
+    # person with international characters in their name
+    {
+        "identifier": "https://orcid.org/0000-0000-0000-0001",
+        "properties": {
+            "affiliation": "Test University",
+            "name": "Ãệïøù Person",
+        },
+    },
+]
 
 
 @pytest.mark.parametrize(
     "person_dict",
-    [
-        person_with_id_orcid,
-        person_with_id_uri,
-        person_with_id_local,
-        person_with_id_name,
-        person_with_id_blank,
-        person_with_intl_chars,
-    ],
+    [*people],
 )
 def test_get_author_details(person_dict):
     person = Person(None, **person_dict)
@@ -77,12 +73,7 @@ def test_get_author_details(person_dict):
 
 def test_build_zenodo_creator_list__multiple_authors():
     # Arrange
-    person_dict_list = [
-        person_with_id_orcid,
-        person_with_intl_chars,
-        person_with_id_name,
-    ]
-    person_list = [Person(None, **p) for p in person_dict_list]
+    person_list = [Person(None, **p) for p in people]
     expected = []
     for person in person_list:
         details = get_author_details(person)
@@ -100,7 +91,7 @@ def test_build_zenodo_creator_list__multiple_authors():
 
 def test_build_zenodo_creator_list__single_author():
     # Arrange
-    person = Person(None, **person_with_id_orcid)
+    person = Person(None, **people[0])
     details = get_author_details(person)
     details.update({"gnd": None})
     expected = [details]
