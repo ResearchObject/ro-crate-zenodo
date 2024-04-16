@@ -7,15 +7,7 @@ from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
 from zenodo_client import Creator, Metadata, ensure_zenodo
 
-
-def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
-    """Given an RO-Crate author or list of authors, build a list of "creators"
-    to use in Zenodo upload."""
-    if isinstance(authors, list):
-        return [Creator(name=a["name"]) for a in authors]
-    else:
-        # single author
-        return [Creator(name=authors["name"])]
+from ro_crate_uploader.authors import build_zenodo_creator_list
 
 
 def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
