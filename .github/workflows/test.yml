@@ -32,7 +32,7 @@ jobs:
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
     - name: Lint with mypy
       run: |
-        mypy
+        mypy .
     - name: Test with pytest
       run: |
         pytest
