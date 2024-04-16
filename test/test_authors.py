@@ -1,139 +1,114 @@
+import pytest
 from unittest import TestCase
 
 from rocrate.model.person import Person
 
+from ro_crate_uploader.authors import get_orcid_id_or_none, get_author_details
 from ro_crate_uploader.upload import (
     build_zenodo_creator_list,
 )
 
 person_with_id_orcid = {
-    "@id": "https://orcid.org/0000-0000-0000-0000",
-    "@type": Person,
-    "affiliation": "Test University",
-    "name": "ORCID Person",
+    "identifier": "https://orcid.org/0000-0000-0000-0000",
+    "properties": {
+        "affiliation": "Test University",
+        "name": "ORCID Person",
+    },
 }
 
 person_with_id_uri = {
-    "@id": "https://example.org",
-    "@type": Person,
-    "affiliation": "Test University",
-    "name": "URI Person",
+    "identifier": "https://example.org",
+    "properties": {
+        "affiliation": "Test University",
+        "name": "URI Person",
+    },
 }
 
 person_with_id_local = {
-    "@id": "#local_person",
-    "@type": Person,
-    "affiliation": "Test University",
-    "name": "Local Person",
+    "identifier": "#local_person",
+    "properties": {
+        "affiliation": "Test University",
+        "name": "Local Person",
+    },
 }
 
-person_with_id_name = {"@id": "Named Person"}
+person_with_id_name = {"identifier": "Named Person"}
 
 person_with_id_blank = {
-    "@id": "_:blank_person",
-    "@type": Person,
+    "identifier": "_:blank_person",
 }
 
 person_with_intl_chars = {
-    "@id": "https://orcid.org/0000-0000-0000-0001",
-    "@type": Person,
-    "affiliation": "Test University",
-    "name": "Ãệïøù Person",
+    "identifier": "https://orcid.org/0000-0000-0000-0001",
+    "properties": {
+        "affiliation": "Test University",
+        "name": "Ãệïøù Person",
+    },
 }
 
 
-class TestAuthorConversion(TestCase):
-    def test_orcid_person(self):
-        # Arrange
-        person = person_with_id_orcid
-        expected = {
-            "name": person["name"],
-            "affiliation": person["affiliation"],
-            "orcid": person["@id"],
-            "gnd": None,
-        }
+@pytest.mark.parametrize(
+    "person_dict",
+    [
+        person_with_id_orcid,
+        person_with_id_uri,
+        person_with_id_local,
+        person_with_id_name,
+        person_with_id_blank,
+        person_with_intl_chars,
+    ],
+)
+def test_get_author_details(person_dict):
+    person = Person(None, **person_dict)
 
-        # Act
-        result = build_zenodo_creator_list(person)
+    id = person.get("@id")
+    expected = {
+        "name": person.get("name", id),
+        "affiliation": person.get("affiliation", None),
+        "orcid": get_orcid_id_or_none(id),
+    }
 
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
+    # Act
+    result = get_author_details(person)
 
-    def test_uri_person(self):
-        # Arrange
-        person = person_with_id_uri
-        expected = {
-            "name": person["name"],
-            "affiliation": person["affiliation"],
-            "orcid": None,
-            "gnd": None,
-        }
+    # Assert
+    assert expected == result
 
-        # Act
-        result = build_zenodo_creator_list(person)
 
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
+def test_build_zenodo_creator_list__multiple_authors():
+    # Arrange
+    person_dict_list = [
+        person_with_id_orcid,
+        person_with_intl_chars,
+        person_with_id_name,
+    ]
+    person_list = [Person(None, **p) for p in person_dict_list]
+    expected = []
+    for person in person_list:
+        details = get_author_details(person)
+        details.update({"gnd": None})
+        expected.append(details)
 
-    def test_local_person(self):
-        # Arrange
-        expected = {
-            "name": "Local Person",
-            "affiliation": "Test University",
-            "orcid": None,
-            "gnd": None,
-        }
+    # Act
+    result = build_zenodo_creator_list(person_list)
 
-        # Act
-        result = build_zenodo_creator_list(person_with_id_local)
+    # Assert
+    assert len(expected) == len(result)
+    for i in range(len(expected)):
+        assert expected[i] == result[i].model_dump()
 
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
 
-    def test_named_person(self):
-        # Arrange
-        person = person_with_id_local
-        expected = {
-            "name": person["name"],
-            "affiliation": None,
-            "orcid": None,
-            "gnd": None,
-        }
+def test_build_zenodo_creator_list__single_author():
+    # Arrange
+    person = Person(None, **person_with_id_orcid)
+    details = get_author_details(person)
+    details.update({"gnd": None})
+    expected = [details]
 
-        # Act
-        result = build_zenodo_creator_list(person)
+    # Act
+    result = build_zenodo_creator_list(person)
 
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
-
-    def test_blank_person(self):
-        # Arrange
-        person = person_with_id_blank
-        expected = {
-            "name": None,
-            "affiliation": None,
-            "orcid": None,
-            "gnd": None,
-        }
-
-        # Act
-        result = build_zenodo_creator_list(person)
-
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
-
-    def test_person_with_intl_chars(self):
-        # Arrange
-        person = person_with_intl_chars
-        expected = {
-            "name": person["name"],
-            "affiliation": person["affiliation"],
-            "orcid": person["@id"],
-            "gnd": None,
-        }
-
-        # Act
-        result = build_zenodo_creator_list(person)
-
-        # Assert
-        self.assertDictEqual(expected, result[0].model_dump())
+    # Assert
+    assert len(expected) == len(result)
+    for i in range(len(expected)):
+        assert expected[i] == result[i].model_dump()
