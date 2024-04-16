@@ -1,0 +1,4 @@
+[tool.mypy]
+[[tool.mypy.overrides]]
+module = "rocrate.*"
+ignore_missing_imports = true
