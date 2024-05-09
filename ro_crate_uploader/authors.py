@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-import json
 import re
 
-from pydantic_core import ValidationError
 from rocrate.model.person import Person
-from rocrate.rocrate import ROCrate
-from zenodo_client import Creator, Metadata, ensure_zenodo
+from zenodo_client import Creator
 
 ORCID_REGEX = r"https:\/\/orcid\.org\/(?P<id>([0-9]{4}-){3}[0-9]{3}[0-9X])"
 

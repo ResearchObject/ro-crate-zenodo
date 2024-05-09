@@ -1,5 +1,4 @@
 import pytest
-from unittest import TestCase
 
 from rocrate.model.person import Person
 

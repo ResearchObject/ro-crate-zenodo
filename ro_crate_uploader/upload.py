@@ -3,9 +3,8 @@ from __future__ import annotations
 import json
 
 from pydantic_core import ValidationError
-from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
-from zenodo_client import Creator, Metadata, ensure_zenodo
+from zenodo_client import Metadata, ensure_zenodo
 
 from ro_crate_uploader.authors import build_zenodo_creator_list
 
