@@ -21,7 +21,7 @@ class TestUpload(TestCase):
             "description": "a demo crate for Galaxy training",
             "creators": [
                 {
-                    "name": "Jane Smith",
+                    "name": "Smith, Jane",
                     "affiliation": "<https://ror.org/0abcdef00 Organization>",
                     "orcid": "0000-0000-0000-0000",
                     "gnd": None,
@@ -41,20 +41,6 @@ class TestUpload(TestCase):
         # Arrange
         crate_path = "test/test_data/invalid_data_crate"
         crate = ROCrate(crate_path)
-
-        expected = {
-            "title": "Demo Crate",
-            "upload_type": "dataset",
-            "description": "a demo crate for Galaxy training",
-            "creators": [
-                {
-                    "name": "Jane Smith",
-                    "affiliation": None,
-                    "orcid": None,
-                    "gnd": None,
-                }
-            ],
-        }
 
         # Act
         with self.assertRaises(RuntimeError) as cm:
