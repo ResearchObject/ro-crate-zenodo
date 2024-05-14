@@ -53,7 +53,8 @@
         {
             "@id": "https://orcid.org/0000-0000-0000-0000",
             "@type": "Person",
-            "name": "Jane Smith",
+            "givenName": "Jane",
+            "familyName": "Smith",
             "affiliation": {
                 "@id": "https://ror.org/0abcdef00"
             }

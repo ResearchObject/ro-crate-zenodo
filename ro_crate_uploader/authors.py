@@ -22,15 +22,40 @@ def get_author_details(person: Person) -> dict:
     id = person["@id"]
     orcid_id = get_orcid_id_or_none(id)
 
-    # if no name present, fall back on id
-    # TODO handle case where only a name is provided as @id but rocrate adds a #
-    name = person.get("name", id)
+    name = get_formatted_author_name(person)
 
     affiliation = person.get("affiliation", None)
     if affiliation:
         affiliation = str(affiliation)
 
     return {"name": name, "orcid": orcid_id, "affiliation": affiliation}
+
+
+def get_formatted_author_name(person: Person) -> str:
+    """Get an author's name and format it for the Zenodo API.
+
+    Zenodo has 2 name fields: family name and given name.
+    RO-Crate (via https://schema.org/Person) supports these,
+    but also has a single 'name' field which is used more often.
+    """
+    # first try to use given and/or family names
+    given_name = person.get("givenName", "")
+    family_name = person.get("familyName", "")
+    if given_name or family_name:
+        name = f"{family_name}, {given_name}"
+    else:
+        # try `name` field
+        # if still no name is found, fall back on id
+        # TODO handle case where only a name is provided as @id but rocrate adds a #
+        id = person["@id"]
+        name = person.get("name", id)
+        print(name)
+        # append comma if needed
+        # this puts the whole name into the Zenodo family name field
+        if "," not in name:
+            name += ","
+
+    return name
 
 
 def get_orcid_id_or_none(str: str) -> str | None:
