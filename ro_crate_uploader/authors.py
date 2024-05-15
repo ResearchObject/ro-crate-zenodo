@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import re
+import logging
 
 from rocrate.model.person import Person
 from zenodo_client import Creator
+
+logger = logging.getLogger(__name__)
 
 ORCID_REGEX = r"https:\/\/orcid\.org\/(?P<id>([0-9]{4}-){3}[0-9]{3}[0-9X])"
 
@@ -49,10 +52,15 @@ def get_formatted_author_name(person: Person) -> str:
         # TODO handle case where only a name is provided as @id but rocrate adds a #
         id = person["@id"]
         name = person.get("name", id)
-        print(name)
         # append comma if needed
         # this puts the whole name into the Zenodo family name field
         if "," not in name:
+            logger.warning(
+                f'Could not separate family and given names for author "{name}". '
+                "Verify name is correctly entered in Zenodo before publishing. "
+                "To remove this warning, set `givenName` and `familyName` for this "
+                "author in the RO-Crate metadata document."
+            )
             name += ","
 
     return name

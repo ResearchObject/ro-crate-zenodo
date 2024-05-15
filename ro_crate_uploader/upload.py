@@ -5,8 +5,12 @@ import json
 from pydantic_core import ValidationError
 from rocrate.rocrate import ROCrate
 from zenodo_client import Metadata, create_zenodo
+import logging
 
 from ro_crate_uploader.authors import build_zenodo_creator_list
+
+logging.basicConfig(format="[%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
 
 
 def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
@@ -74,11 +78,11 @@ def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
 
 # included for convenience, remove or update this as code expands
 if __name__ == "__main__":
-    crate_path = "test/test_data/demo_crate"
+    crate_path = "../demo/demo_crate"
     crate = ROCrate(crate_path)
 
     metadata = build_zenodo_metadata_from_crate(crate)
     crate_zip_path = ensure_crate_zipped(crate)
-    print(crate_zip_path, metadata)
     record = upload_crate_to_zenodo(crate_zip_path, metadata)
-    print(record)
+    logger.debug("Created record:")
+    logger.debug(record)

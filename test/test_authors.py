@@ -77,13 +77,6 @@ people = {
     },
 }
 
-formatted_names = {
-    "id-orcid": "ORCID Person,",
-    "name-family-given": "Family, Given",
-    "name-family-only": "Family, ",
-    "name-given-only": ", Given",
-}
-
 
 @pytest.mark.parametrize(
     "person_dict",
@@ -107,18 +100,17 @@ def test_get_author_details(person_dict):
 
 
 @pytest.mark.parametrize(
-    "person_dict, expected",
+    "person_key, expected",
     [
-        (people[key], formatted_names[key])
-        for key in [
-            "id-orcid",
-            "name-family-given",
-            "name-family-only",
-            "name-given-only",
-        ]
+        ("id-orcid", "ORCID Person,"),
+        ("id-name", "Named Person,"),
+        ("name-family-given", "Family, Given"),
+        ("name-family-only", "Family, "),
+        ("name-given-only", ", Given"),
     ],
 )
-def test_get_formatted_author_name(person_dict, expected):
+def test_get_formatted_author_name(person_key, expected):
+    person_dict = people[person_key]
     person = Person(None, **person_dict)
 
     result = get_formatted_author_name(person)
