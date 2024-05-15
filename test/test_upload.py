@@ -12,7 +12,7 @@ from ro_crate_uploader.upload import (
 class TestUpload(TestCase):
     def test_build_zenodo_metadata(self):
         # Arrange
-        crate_path = "test/test_data/demo_crate"
+        crate_path = "test/test_data/valid_crate"
         crate = ROCrate(crate_path)
 
         expected = {

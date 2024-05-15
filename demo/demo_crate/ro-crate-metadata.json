@@ -34,6 +34,9 @@
                 },
                 {
                     "@id": "https://orcid.org/0000-0000-0000-0001"
+                },
+                {
+                    "@id": "Named Person"
                 }
             ],
             "hasPart": [
