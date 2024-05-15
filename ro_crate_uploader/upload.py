@@ -11,6 +11,7 @@ from ro_crate_uploader.authors import build_zenodo_creator_list
 
 logging.basicConfig(format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:

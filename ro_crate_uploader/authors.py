@@ -7,6 +7,7 @@ from rocrate.model.person import Person
 from zenodo_client import Creator
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 ORCID_REGEX = r"https:\/\/orcid\.org\/(?P<id>([0-9]{4}-){3}[0-9]{3}[0-9X])"
 
@@ -49,9 +50,12 @@ def get_formatted_author_name(person: Person) -> str:
     else:
         # try `name` field
         # if still no name is found, fall back on id
-        # TODO handle case where only a name is provided as @id but rocrate adds a #
-        id = person["@id"]
-        name = person.get("name", id)
+        try:
+            name = person["name"]
+        except KeyError:
+            id = person["@id"]
+            logger.warning(f"Author {id}: No `name` field found, falling back on `@id`")
+            name = id.lstrip("#")
         # append comma if needed
         # this puts the whole name into the Zenodo family name field
         if "," not in name:
