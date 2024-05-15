@@ -3,19 +3,15 @@ from __future__ import annotations
 import json
 
 from pydantic_core import ValidationError
-from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
-from zenodo_client import Creator, Metadata, ensure_zenodo
+from zenodo_client import Metadata, create_zenodo
+import logging
 
+from ro_crate_uploader.authors import build_zenodo_creator_list
 
-def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
-    """Given an RO-Crate author or list of authors, build a list of "creators"
-    to use in Zenodo upload."""
-    if isinstance(authors, list):
-        return [Creator(name=a["name"]) for a in authors]
-    else:
-        # single author
-        return [Creator(name=authors["name"])]
+logging.basicConfig(format="[%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
@@ -64,17 +60,18 @@ def ensure_crate_zipped(crate: ROCrate) -> str:
 def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
     """Upload a zipped crate and its metadata to Zenodo.
 
-    This will publish a record when run, so it's recommended to keep
-    sandbox=True until a publish toggle is added to zenodo-client."""
-    res = ensure_zenodo(
+    It's recommended to keep sandbox=True until ready for production use."""
+    # for now, create only, don't update
+    res = create_zenodo(
         # this is a unique key you pick that will be used to store
         # the numeric deposition ID on your local system's cache
-        key="ro-crate-uploader",
+        # key="ro-crate-uploader",
         data=metadata,
         paths=[
             crate_zip_path,
         ],
         sandbox=True,  # remove this when you're ready to upload to real Zenodo
+        publish=False,
     )
 
     return res.json()
@@ -82,11 +79,11 @@ def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
 
 # included for convenience, remove or update this as code expands
 if __name__ == "__main__":
-    crate_path = "test/test_data/demo_crate"
+    crate_path = "../demo/demo_crate"
     crate = ROCrate(crate_path)
 
     metadata = build_zenodo_metadata_from_crate(crate)
     crate_zip_path = ensure_crate_zipped(crate)
-    print(crate_zip_path, metadata)
-    # record = upload_crate_to_zenodo(crate_zip_path, metadata)
-    # print(record)
+    record = upload_crate_to_zenodo(crate_zip_path, metadata)
+    logger.debug("Created record:")
+    logger.debug(record)

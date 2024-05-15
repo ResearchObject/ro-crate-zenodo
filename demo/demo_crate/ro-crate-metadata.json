@@ -28,9 +28,17 @@
                 "description": "Creative Commons Zero v1.0 Universal",
                 "url": "https://creativecommons.org/publicdomain/zero/1.0/"
             },
-            "author": {
-                "@id": "https://orcid.org/0000-0000-0000-0000"
-            },
+            "author": [
+                {
+                    "@id": "https://orcid.org/0000-0000-0000-0000"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0000-0000-0001"
+                },
+                {
+                    "@id": "Named Person"
+                }
+            ],
             "hasPart": [
                 {
                     "@id": "data.csv"
@@ -53,7 +61,16 @@
         {
             "@id": "https://orcid.org/0000-0000-0000-0000",
             "@type": "Person",
-            "name": "Jane Smith",
+            "givenName": "Jane",
+            "familyName": "Smith",
+            "affiliation": {
+                "@id": "https://ror.org/0abcdef00"
+            }
+        },
+        {
+            "@id": "https://orcid.org/0000-0000-0000-0001",
+            "@type": "Person",
+            "name": "Eli Chadwick",
             "affiliation": {
                 "@id": "https://ror.org/0abcdef00"
             }
