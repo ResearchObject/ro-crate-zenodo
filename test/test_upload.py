@@ -22,7 +22,7 @@ class TestUpload(TestCase):
             "creators": [
                 {
                     "name": "Smith, Jane",
-                    "affiliation": "0abcdef00",
+                    "affiliation": "Example University",
                     "orcid": "0000-0000-0000-0000",
                     "gnd": None,
                 }

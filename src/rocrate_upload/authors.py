@@ -32,7 +32,7 @@ def get_author_details(person: Person) -> dict:
 
     affiliation = person.get("affiliation", None)
     if affiliation:
-        affiliation = get_affiliation_name_or_id(affiliation)
+        affiliation = get_affiliation_name(affiliation)
 
     return {"name": name, "orcid": orcid, "affiliation": affiliation}
 
@@ -72,7 +72,7 @@ def get_formatted_author_name(person: Person) -> str:
     return name
 
 
-def get_affiliation_name_or_id(organization: ContextEntity | str) -> str:
+def get_affiliation_name(organization: ContextEntity | str) -> str:
     # if it's free text, return as-is
     if type(organization) == str:
         return organization
@@ -80,14 +80,8 @@ def get_affiliation_name_or_id(organization: ContextEntity | str) -> str:
     # otherwise, we should have a ContextEntity object
     assert isinstance(organization, ContextEntity)
 
-    # use the ROR if there is one
-    id = organization["@id"]
-    ror = get_ror_id_or_none(id)
-    if ror:
-        return ror
-
-    # if no ROR, use the name, or the id as a last resort
-    id = id.lstrip("#")
+    # get the organisation name, or fall back on @id
+    id = organization["@id"].lstrip("#")
     name = organization.get("name", id)
     return name
 

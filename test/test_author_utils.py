@@ -4,7 +4,7 @@ from rocrate.model.contextentity import ContextEntity
 from rocrate_upload.authors import (
     get_orcid_id_or_none,
     get_ror_id_or_none,
-    get_affiliation_name_or_id,
+    get_affiliation_name,
 )
 
 organizations = {
@@ -79,25 +79,9 @@ def test_get_ror_id(input, expected):
 
 
 @pytest.mark.parametrize(
-    "input, expected",
-    [
-        ("https://ror.org/02mhbdp94", "02mhbdp94"),
-        ("02mhbdp94", None),
-        ("Test University", None),
-    ],
-)
-def test_get_ror_id(input, expected):
-    # Act
-    result = get_ror_id_or_none(input)
-
-    # Assert
-    assert expected == result
-
-
-@pytest.mark.parametrize(
     "org_key, expected",
     [
-        ("id-ror", "0abcdef12"),
+        ("id-ror", "ROR Organization"),
         ("id-uri", "URI Organization"),
         ("id-local", "Local Organization"),
         ("id-name", "Named Organization"),
@@ -108,6 +92,6 @@ def test_get_formatted_author_name(org_key, expected):
     org_dict = organizations[org_key]
     org = ContextEntity(None, **org_dict)
 
-    result = get_affiliation_name_or_id(org)
+    result = get_affiliation_name(org)
 
     assert expected == result
