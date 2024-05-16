@@ -75,15 +75,3 @@ def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
     )
 
     return res.json()
-
-
-# included for convenience, remove or update this as code expands
-if __name__ == "__main__":
-    crate_path = "../demo/demo_crate"
-    crate = ROCrate(crate_path)
-
-    metadata = build_zenodo_metadata_from_crate(crate)
-    crate_zip_path = ensure_crate_zipped(crate)
-    record = upload_crate_to_zenodo(crate_zip_path, metadata)
-    logger.debug("Created record:")
-    logger.debug(record)
