@@ -31,12 +31,6 @@
             "author": [
                 {
                     "@id": "https://orcid.org/0000-0000-0000-0000"
-                },
-                {
-                    "@id": "https://orcid.org/0000-0000-0000-0001"
-                },
-                {
-                    "@id": "Named Person"
                 }
             ],
             "hasPart": [
@@ -63,14 +57,6 @@
             "@type": "Person",
             "givenName": "Jane",
             "familyName": "Smith",
-            "affiliation": {
-                "@id": "https://ror.org/0abcdef00"
-            }
-        },
-        {
-            "@id": "https://orcid.org/0000-0000-0000-0001",
-            "@type": "Person",
-            "name": "Eli Chadwick",
             "affiliation": {
                 "@id": "https://ror.org/0abcdef00"
             }
