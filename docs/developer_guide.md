@@ -17,7 +17,7 @@ Configure Zenodo access token(s) as in [user guide - Set up a Zenodo personal ac
 
 Beware that tests may make Zenodo uploads using your access token.
 
+In the root directory:
 ```bash
-cd ro_crate_uploader
 pytest
 ```

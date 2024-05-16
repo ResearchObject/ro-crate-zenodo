@@ -1,6 +1,6 @@
 import pytest
 
-from ro_crate_uploader.authors import get_orcid_id_or_none, get_author_details
+from rocrate_upload.authors import get_orcid_id_or_none, get_author_details
 
 
 @pytest.mark.parametrize(
