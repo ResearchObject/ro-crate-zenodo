@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Any
 
 import json
 
@@ -57,7 +58,7 @@ def ensure_crate_zipped(crate: ROCrate) -> str:
     return zipped
 
 
-def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata):
+def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata) -> Any:
     """Upload a zipped crate and its metadata to Zenodo.
 
     It's recommended to keep sandbox=True until ready for production use."""
