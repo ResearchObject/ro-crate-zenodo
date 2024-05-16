@@ -1,3 +1,58 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rocrate-upload"
+description = "Upload RO-Crates to Zenodo and automatically fill the metadata"
+readme = "README.md"
+authors = [
+  {name = "Eli Chadwick", email = "eli.chadwick@manchester.ac.uk"},
+]
+maintainers = [
+  {name = "Eli Chadwick", email = "eli.chadwick@manchester.ac.uk"}
+]
+dynamic = ["version"]
+dependencies = [
+    "zenodo-client>=0.3.4",
+    "rocrate",
+]
+requires-python = ">= 3.8"
+license = {file = "LICENSE"}
+keywords = ["rocrate", "RO-Crate"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "black",
+    "pytest",
+    "pytest-cov",
+    "mypy",
+]
+build = [
+    "setuptools",
+    "build",
+    "twine",
+]
+
+[project.urls]
+Homepage = "https://www.researchobject.org/ro-crate/"
+Repository = "https://github.com/ResearchObject/ro-crate-uploader"
+Issues = "https://github.com/ResearchObject/ro-crate-uploader/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "rocrate_upload.__version__"}
+
 [tool.mypy]
 [[tool.mypy.overrides]]
 module = "rocrate.*"

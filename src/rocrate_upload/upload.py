@@ -7,7 +7,7 @@ from rocrate.rocrate import ROCrate
 from zenodo_client import Metadata, create_zenodo
 import logging
 
-from ro_crate_uploader.authors import build_zenodo_creator_list
+from rocrate_upload.authors import build_zenodo_creator_list
 
 logging.basicConfig(format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
