@@ -4,12 +4,14 @@ import re
 import logging
 
 from rocrate.model.person import Person
+from rocrate.model.contextentity import ContextEntity
 from zenodo_client import Creator
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 ORCID_REGEX = r"https:\/\/orcid\.org\/(?P<id>([0-9]{4}-){3}[0-9]{3}[0-9X])"
+ROR_REGEX = r"https:\/\/ror\.org\/(?P<id>0[a-hj-km-np-tv-z|0-9]{6}[0-9]{2})"
 
 
 def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
@@ -24,15 +26,15 @@ def get_author_details(person: Person) -> dict:
     """Collects details from a Person entity and returns them using Creator fields"""
     # check if @id is an ORCID
     id = person["@id"]
-    orcid_id = get_orcid_id_or_none(id)
+    orcid = get_orcid_id_or_none(id)
 
     name = get_formatted_author_name(person)
 
     affiliation = person.get("affiliation", None)
     if affiliation:
-        affiliation = str(affiliation)
+        affiliation = get_affiliation_name(affiliation)
 
-    return {"name": name, "orcid": orcid_id, "affiliation": affiliation}
+    return {"name": name, "orcid": orcid, "affiliation": affiliation}
 
 
 def get_formatted_author_name(person: Person) -> str:
@@ -70,8 +72,30 @@ def get_formatted_author_name(person: Person) -> str:
     return name
 
 
+def get_affiliation_name(organization: ContextEntity | str) -> str:
+    # if it's free text, return as-is
+    if type(organization) == str:
+        return organization
+
+    # otherwise, we should have a ContextEntity object
+    assert isinstance(organization, ContextEntity)
+
+    # get the organisation name, or fall back on @id
+    id = organization["@id"].lstrip("#")
+    name = organization.get("name", id)
+    return name
+
+
 def get_orcid_id_or_none(str: str) -> str | None:
     match = re.match(ORCID_REGEX, str)
+    if match:
+        return match.group("id")
+    else:
+        return None
+
+
+def get_ror_id_or_none(str: str) -> str | None:
+    match = re.match(ROR_REGEX, str)
     if match:
         return match.group("id")
     else:
