@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Any
 
+import re
 import json
 import requests
 
@@ -15,6 +16,8 @@ from rocrate_upload.authors import build_zenodo_creator_list
 logging.basicConfig(format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+SPDX_URL_PATTERN = r"https?:\/\/spdx.org\/licenses\/(?P<id>[-_.a-zA-Z0-9]+\+?)"
 
 
 def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
@@ -66,12 +69,44 @@ def get_license(license: str | ContextEntity) -> str | None:
     else:
         id = license
 
+    using_spdx = False
+
+    # if id is an SPDX URL, extract the SPDX id of the license
+    if match := re.match(SPDX_URL_PATTERN, id):
+        using_spdx = True  # try to match exactly
+        print("matched")
+        id = match.group("id")
+        if id.endswith(".html") or id.endswith(".json"):
+            id = id[:-5]
+
+    print(f"searching for {id}")
     # search Zenodo database for a matching license
     # this is quite a forgiving search so imperfect matches are possible
     # assume the first result is the best
-    r = requests.get(f"https://zenodo.org/api/licenses?q={id}&size=1&sort=bestmatch")
-    r.raise_for_status()
+    logger.debug(f'Searching Zenodo license list for "{id}"')
+    try:
+        r = requests.get(
+            f"https://zenodo.org/api/licenses?q={id}&size=1&sort=bestmatch"
+        )
+        r.raise_for_status()
+    except requests.exceptions.HTTPError:
+        logger.debug(f"Response: {r.json()}")
+        logger.warning(
+            f"Could not find a matching license for {id} on Zenodo. "
+            "Please enter the license manually after uploading."
+        )
+        return None
+
     matched_license = r.json()["hits"]["hits"][0]
+    if using_spdx and matched_license["id"] != id.lower():
+        logger.debug(
+            f'Zenodo search returned license {matched_license["id"]}, which does not match SPDX id {id}'
+        )
+        logger.warning(
+            f"Could not find a matching license for {id} on Zenodo. "
+            "Please enter the license manually after uploading."
+        )
+        return None
 
     logger.debug(f"Found matching license: {matched_license['title']['en']}")
     return matched_license["id"]
