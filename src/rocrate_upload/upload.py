@@ -2,9 +2,11 @@ from __future__ import annotations
 from typing import Any
 
 import json
+import requests
 
 from pydantic_core import ValidationError
 from rocrate.rocrate import ROCrate
+from rocrate.model.contextentity import ContextEntity
 from zenodo_client import Metadata, create_zenodo
 import logging
 
@@ -25,6 +27,8 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
     title = crate.root_dataset.get("name")
     description = crate.root_dataset.get("description")
 
+    license = get_license(crate.root_dataset.get("license", ""))
+
     # Define the metadata that will be used on initial upload
     # Metadata is a Pydantic model that provides some type validation
     try:
@@ -33,6 +37,7 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
             upload_type="dataset",
             description=description,
             creators=creators,
+            license=license,
         )
     except ValidationError as exception:
         errors = json.loads(exception.json())
@@ -47,6 +52,29 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
         raise RuntimeError(msg)
 
     return data
+
+
+def get_license(license: str | ContextEntity) -> str | None:
+    """Search the Zenodo license list and return the ID of the best match"""
+    if not license:
+        return None
+
+    # the id in the RO-Crate should be sufficient
+    # whether this is a URI, a name, or an identifier
+    if type(license) == ContextEntity:
+        id = license["@id"]
+    else:
+        id = license
+
+    # search Zenodo database for a matching license
+    # this is quite a forgiving search so imperfect matches are possible
+    # assume the first result is the best
+    r = requests.get(f"https://zenodo.org/api/licenses?q={id}&size=1&sort=bestmatch")
+    r.raise_for_status()
+    matched_license = r.json()["hits"]["hits"][0]
+
+    logger.debug(f"Found matching license: {matched_license['title']['en']}")
+    return matched_license["id"]
 
 
 def ensure_crate_zipped(crate: ROCrate) -> str:
