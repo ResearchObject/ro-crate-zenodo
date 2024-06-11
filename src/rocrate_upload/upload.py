@@ -36,8 +36,8 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
     try:
         license_id = get_license(license)
     except ValueError as e:
-        license_input = license["@id"] if type(license) == ContextEntity else license
         logger.debug(str(e))
+        license_input = license["@id"] if type(license) == ContextEntity else license
         logger.warning(
             f"Could not find a matching license for {license_input} on Zenodo. "
             "Please enter the license manually after uploading."
@@ -70,17 +70,15 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
 
 
 def get_license(license: str | ContextEntity) -> str | None:
-    """Extract the license SPDX ID, URI, or name, in order of preference"""
+    """Extract the license SPDX ID, if possible. Zenodo accepts only this ID."""
     if not license:
         return None
 
     # first, look at @id
     if type(license) == ContextEntity:
         id = license["@id"].lstrip("#")
-        name = license.get("name", None)
     else:
         id = license
-        name = None
 
     # if @id matches SPDX URI patterns, extract the SPDX identifier and return that
     match = re.match(SPDX_URL_PATTERN, id)
@@ -90,12 +88,8 @@ def get_license(license: str | ContextEntity) -> str | None:
             id = id[:-5]
         id = id.lower()
         return id
-    elif " " in id or "http" in id:
-        # we have a name or a URI, return that
-        return id
     else:
-        # otherwise, try and use a name, but fall back on id
-        return name if name else id
+        raise ValueError(f"Could not find the SPDX ID in {id}.")
 
 
 def ensure_crate_zipped(crate: ROCrate) -> str:
