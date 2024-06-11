@@ -58,7 +58,12 @@ def ensure_crate_zipped(crate: ROCrate) -> str:
     return zipped
 
 
-def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata) -> Any:
+def upload_crate_to_zenodo(
+    crate_zip_path: str,
+    metadata: Metadata,
+    sandbox: bool = True,
+    publish: bool = False,
+) -> Any:
     """Upload a zipped crate and its metadata to Zenodo.
 
     It's recommended to keep sandbox=True until ready for production use."""
@@ -71,8 +76,8 @@ def upload_crate_to_zenodo(crate_zip_path: str, metadata: Metadata) -> Any:
         paths=[
             crate_zip_path,
         ],
-        sandbox=True,  # remove this when you're ready to upload to real Zenodo
-        publish=False,
+        sandbox=sandbox,
+        publish=publish,
     )
 
     return res.json()

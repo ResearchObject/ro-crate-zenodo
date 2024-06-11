@@ -50,6 +50,9 @@ Homepage = "https://www.researchobject.org/ro-crate/"
 Repository = "https://github.com/ResearchObject/ro-crate-uploader"
 Issues = "https://github.com/ResearchObject/ro-crate-uploader/issues"
 
+[project.scripts]
+rocrate_upload = "rocrate_upload.main:cli_entry"
+
 [tool.setuptools.dynamic]
 version = {attr = "rocrate_upload.__version__"}
 
