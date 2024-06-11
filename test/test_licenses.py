@@ -5,7 +5,7 @@ import requests
 import pytest
 
 from rocrate.model.person import Person
-from rocrate.rocrate import ROCrate
+from rocrate.rocrate import ROCrate, ContextEntity
 
 from rocrate_upload.upload import (
     build_zenodo_creator_list,
@@ -36,10 +36,7 @@ with open("test/test_data/licenses.json") as licenses_file:
 )
 def test_get_license_from_spdx_reference(license):
     # Arrange
-    print(len(LICENSES_TO_TEST))
-
     id = license["licenseId"].lower()
-    print(id)
     reference = license["reference"]
 
     # Act & Assert
@@ -53,13 +50,11 @@ def test_get_license_from_spdx_reference(license):
 )
 def test_get_license_from_spdx_name(license):
     # Arrange
-    id = license["licenseId"].lower()
-    print(id)
     name = license["name"]
 
     # Act & Assert
     res = get_license(name)
-    assert res == id
+    assert res == name
 
 
 @pytest.mark.parametrize(
@@ -68,13 +63,106 @@ def test_get_license_from_spdx_name(license):
 )
 def test_get_license_from_urls(license):
     # Arrange
-    id = license["licenseId"].lower()
-    print(id)
     urls = license["seeAlso"]
 
     # Act
     res = [get_license(url) for url in urls]
 
     # Assert
-    for r in res:
-        assert r == id
+    for r, u in zip(res, urls):
+        assert r == u
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_spdx_uri(license):
+    # Arrange
+    entity = ContextEntity(
+        None, license["reference"], properties={"name": license["name"]}
+    )
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == license["licenseId"].lower()
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_spdx_id(license):
+    """Just the SPDX id will not be used - as creates false positives with local ids"""
+    # Arrange
+    entity = ContextEntity(
+        None, license["licenseId"], properties={"name": license["name"]}
+    )
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == license["name"]
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_name(license):
+    # Arrange
+    entity = ContextEntity(None, license["name"])
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == license["name"]
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_url(license):
+    # Arrange
+    entity = ContextEntity(None, license["seeAlso"][0])
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == license["seeAlso"][0]
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_local(license):
+    # Arrange
+    entity = ContextEntity(None, "#local_id", properties={"name": license["name"]})
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == license["name"]
+
+
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_entity__id_local_no_name(license):
+    # Arrange
+    entity = ContextEntity(None, "#local_id")
+
+    # Act
+    res = get_license(entity)
+
+    # Assert
+    assert res == "local_id"
