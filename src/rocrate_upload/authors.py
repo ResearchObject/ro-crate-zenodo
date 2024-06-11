@@ -24,6 +24,11 @@ def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
 
 def get_author_details(person: Person) -> dict:
     """Collects details from a Person entity and returns them using Creator fields"""
+    if type(person) == str:
+        if "," not in person:
+            person += ","
+        return {"name": person}
+
     # check if @id is an ORCID
     id = person["@id"]
     orcid = get_orcid_id_or_none(id)
