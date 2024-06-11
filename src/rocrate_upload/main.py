@@ -40,4 +40,4 @@ def cli_entry():
     record = upload_crate_to_zenodo(
         crate_zip_path, metadata, sandbox=args.sandbox, publish=args.publish
     )
-    print(f"Created record {record["id"]} ({record["links"]["html"]})")
+    print(f'Created record {record["id"]} ({record["links"]["html"]})')
