@@ -105,12 +105,12 @@ def get_license(license: str | ContextEntity) -> str | None:
     logger.debug(
         f'Searching Zenodo license list for "{search_term}". Using SPDX: {using_spdx}. Using name: {using_name}.'
     )
-    # if using_spdx:
-    #     fields = ["id"]
-    # elif using_name:
-    #     fields = ["title"]
-    # else:
-    #     fields = ["id", "title", "props"]
+    if using_spdx:
+        fields = ["id"]
+    elif using_name:
+        fields = ["title"]
+    else:
+        fields = ["id", "title", "props"]
     query = {"query_string": {"query": {search_term}, "fields": fields}}
 
     try:
