@@ -7,6 +7,7 @@ from rocrate_upload.upload import (
     upload_crate_to_zenodo,
 )
 
+
 def cli_entry():
     parser = argparse.ArgumentParser(
         description="Takes a RO-Crate directory as input and uploads it to Zenodo"
