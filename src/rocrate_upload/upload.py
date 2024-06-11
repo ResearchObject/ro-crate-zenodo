@@ -82,6 +82,8 @@ def get_license(license: str | ContextEntity) -> str | None:
         id = license
         if " " in license:
             name = license
+        else:
+            name = None
 
     # if @id matches SPDX ID or URL patterns, extract the SPDX identifier
     # otherwise, try and use a name

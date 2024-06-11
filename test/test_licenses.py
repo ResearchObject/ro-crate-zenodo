@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import json
 import requests
 import pytest
 
@@ -24,16 +25,18 @@ ZENODO_LICENSES = str(ZENODO_LICENSES)
 SPDX_LICENSES_IN_ZENODO = [
     l for l in SPDX_LICENSES if f'{l["licenseId"].lower()},' in ZENODO_LICENSES
 ]
-print(SPDX_LICENSES_IN_ZENODO)
+
+with open("test/test_data/licenses.json") as licenses_file:
+    LICENSES_TO_TEST = json.load(licenses_file)["licenses"]
 
 
 @pytest.mark.parametrize(
     "license",
-    SPDX_LICENSES_IN_ZENODO,
+    LICENSES_TO_TEST,
 )
 def test_get_license_from_spdx_reference(license):
     # Arrange
-    print(len(SPDX_LICENSES_IN_ZENODO))
+    print(len(LICENSES_TO_TEST))
 
     id = license["licenseId"].lower()
     print(id)
@@ -46,7 +49,7 @@ def test_get_license_from_spdx_reference(license):
 
 @pytest.mark.parametrize(
     "license",
-    SPDX_LICENSES_IN_ZENODO,
+    LICENSES_TO_TEST,
 )
 def test_get_license_from_spdx_name(license):
     # Arrange
@@ -59,19 +62,19 @@ def test_get_license_from_spdx_name(license):
     assert res == id
 
 
-# @pytest.mark.parametrize(
-#     "license",
-#     LICENSES[:5],
-# )
-# def test_get_license_from_urls(license):
-#     # Arrange
-#     id = license["licenseId"].lower()
-#     print(id)
-#     urls = license["seeAlso"]
+@pytest.mark.parametrize(
+    "license",
+    LICENSES_TO_TEST,
+)
+def test_get_license_from_urls(license):
+    # Arrange
+    id = license["licenseId"].lower()
+    print(id)
+    urls = license["seeAlso"]
 
-#     # Act
-#     res = [get_license(url) for url in urls]
+    # Act
+    res = [get_license(url) for url in urls]
 
-#     # Assert
-#     for r in res:
-#         assert r == id
+    # Assert
+    for r in res:
+        assert r == id
