@@ -1,9 +1,12 @@
 # User Guide - Under Construction
 
-## Install requirements
+## Install the project
 
 ```
+git clone https://github.com/ResearchObject/ro-crate-uploader.git
+cd ro-crate-uploader
 pip install -r requirements.txt
+pip install .
 ```
 
 ## Set up a Zenodo personal access token
@@ -43,3 +46,24 @@ api_token = your-token-here
 ```
 
 `ro-crate-uploader` will read this token whenever it connects to Zenodo in order to perform actions under your account. It's recommended to use the Zenodo sandbox until you're confident using `ro-crate-uploader`.
+
+## Run the code
+
+Run the `rocrate_upload` command in your terminal. Use the `-s` flag to upload to Zenodo sandbox, or omit it to upload to real Zenodo.
+```
+rocrate_upload -s demo/demo_crate
+```
+Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload.
+
+Once complete, you should see the draft record in your Zenodo dashboard.
+
+Further info:
+```
+rocrate_upload --help
+```
+
+## Tips
+
+1. Set `givenName` and `familyName` on authors of the RO-Crate.
+2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`
+3. Check your upload carefully before publishing.
