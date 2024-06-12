@@ -22,11 +22,10 @@
             "datePublished": "2024-03-08",
             "publisher": "https://ror.org/0abcdef00",
             "license": {
-                "@id": "http://spdx.org/licenses/CC0-1.0",
+                "@id": "https://spdx.org/licenses/CC-BY-NC-SA-4.0.html",
                 "@type": "CreativeWork",
-                "name": "CC0-1.0",
-                "description": "Creative Commons Zero v1.0 Universal",
-                "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+                "name": "CC BY-NC-SA 4.0 International",
+                "description": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
             },
             "author": {
                 "@id": "https://orcid.org/0000-0000-0000-0000"

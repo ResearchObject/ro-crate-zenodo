@@ -27,6 +27,7 @@ class TestUpload(TestCase):
                     "gnd": None,
                 }
             ],
+            "license": "cc-by-nc-sa-4.0",
         }
 
         # Act
