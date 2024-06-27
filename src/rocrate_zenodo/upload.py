@@ -12,7 +12,7 @@ from rocrate.model.contextentity import ContextEntity
 from zenodo_client import Metadata, create_zenodo
 import logging
 
-from rocrate_upload.authors import build_zenodo_creator_list
+from rocrate_zenodo.authors import build_zenodo_creator_list
 
 logging.basicConfig(format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)

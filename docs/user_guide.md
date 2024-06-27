@@ -49,9 +49,9 @@ api_token = your-token-here
 
 ## Run the code
 
-Run the `rocrate_upload` command in your terminal. Use the `-s` flag to upload to Zenodo sandbox, or omit it to upload to real Zenodo.
+Run the `rocrate_zenodo` command in your terminal. Use the `-s` flag to upload to Zenodo sandbox, or omit it to upload to real Zenodo.
 ```
-rocrate_upload -s demo/demo_crate
+rocrate_zenodo -s demo/demo_crate
 ```
 Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload.
 
@@ -59,7 +59,7 @@ Once complete, you should see the draft record in your Zenodo dashboard.
 
 Further info:
 ```
-rocrate_upload --help
+rocrate_zenodo --help
 ```
 
 ## Tips
