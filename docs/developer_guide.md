@@ -9,6 +9,7 @@ If you do not already have `poetry` installed, install it following the [Poetry 
 Then install dependencies from `poetry.lock`:
 
 ```bash
+cd ro-crate-zenodo
 poetry install
 ```
 
@@ -29,3 +30,11 @@ In the root directory:
 ```bash
 pytest
 ```
+
+## Publish a release
+
+1. Update the version in `pyproject.toml`
+2. Make a git tag for the release and push it to GitHub
+3. Run `poetry build`
+4. Run `poetry publish -u <username> -p <password_or_api_key>`
+5. Create a release on GitHub, including the build artifacts

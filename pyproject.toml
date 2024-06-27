@@ -8,12 +8,15 @@ build-backend = "poetry.core.masonry.api"
 name = "rocrate-zenodo"
 version = "0.1.0"
 description = "Upload RO-Crates to Zenodo and automatically fill the Zenodo metadata"
-authors = ["Eli Chadwick <eli.chadwick@manchester.ac.uk>"]
+authors = [
+  "Eli Chadwick <eli.chadwick@manchester.ac.uk>",
+  "Stian Soiland-Reyes <soiland-reyes@manchester.ac.uk>",
+]
 maintainers = ["Eli Chadwick <eli.chadwick@manchester.ac.uk>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://www.researchobject.org/ro-crate/"
-repository = "https://github.com/ResearchObject/ro-crate-uploader"
+repository = "https://github.com/ResearchObject/ro-crate-zenodo"
 keywords = ["rocrate", "RO-Crate"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -44,7 +47,7 @@ rocrate_zenodo = "rocrate_zenodo.main:cli_entry"
 my_package_cli = 'my_package.console:run'
 
 [tool.poetry.urls]
-"Issues" = "https://github.com/ResearchObject/ro-crate-uploader/issues"
+"Issues" = "https://github.com/ResearchObject/ro-crate-zenodo/issues"
 
 # Testing tools
 
