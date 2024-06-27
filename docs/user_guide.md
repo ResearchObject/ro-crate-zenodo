@@ -1,15 +1,14 @@
-# User Guide - Under Construction
+# User Guide
 
-## Install the project
+## Setup
 
+### Install the package
+
+Install from PyPI using `pip` or your preferred package manager:
 ```
-git clone https://github.com/ResearchObject/ro-crate-uploader.git
-cd ro-crate-uploader
-pip install -r requirements.txt
-pip install .
+pip install rocrate_zenodo
 ```
-
-## Set up a Zenodo personal access token
+### Set up a Zenodo personal access token
 
 Create a file called `~/.config/zenodo.ini` on your computer with the following contents:
 
@@ -47,23 +46,23 @@ api_token = your-token-here
 
 `ro-crate-uploader` will read this token whenever it connects to Zenodo in order to perform actions under your account. It's recommended to use the Zenodo sandbox until you're confident using `ro-crate-uploader`.
 
-## Run the code
+## Usage
 
-Run the `rocrate_upload` command in your terminal. Use the `-s` flag to upload to Zenodo sandbox, or omit it to upload to real Zenodo.
+To upload a crate to Zenodo sandbox:
 ```
-rocrate_upload -s demo/demo_crate
+rocrate_zenodo -s demo/demo_crate
 ```
-Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload.
+Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload. The `-s` flag sets the destination to the Zenodo sandbox; you can omit `-s` to upload to real Zenodo.
 
 Once complete, you should see the draft record in your Zenodo dashboard.
 
-Further info:
+For further help and options, run:
 ```
-rocrate_upload --help
+rocrate_zenodo --help
 ```
 
 ## Tips
 
-1. Set `givenName` and `familyName` on authors of the RO-Crate.
-2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`
-3. Check your upload carefully before publishing.
+1. Set `givenName` and `familyName` on authors of the RO-Crate. This ensures that author names are formatted correctly in Zenodo.
+2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`. Other URIs for licenses are not currently well supported.
+3. Check your upload carefully in the Zenodo web interface before publishing. Not all metadata will be carried across from the RO-Crate, and some may be transferred incorrectly. Please [raise an issue](https://github.com/ResearchObject/ro-crate-uploader/issues/new) if you notice a discrepancy.

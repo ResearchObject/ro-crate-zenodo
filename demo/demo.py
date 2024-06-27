@@ -1,6 +1,6 @@
 from rocrate.rocrate import ROCrate
 
-from rocrate_upload.upload import (
+from rocrate_zenodo.upload import (
     build_zenodo_metadata_from_crate,
     ensure_crate_zipped,
     upload_crate_to_zenodo,

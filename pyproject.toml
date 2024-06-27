@@ -1,27 +1,22 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
-name = "rocrate-upload"
-description = "Upload RO-Crates to Zenodo and automatically fill the metadata"
+# Poetry
+
+[tool.poetry]
+name = "rocrate-zenodo"
+version = "0.1.0"
+description = "Upload RO-Crates to Zenodo and automatically fill the Zenodo metadata"
+authors = ["Eli Chadwick <eli.chadwick@manchester.ac.uk>"]
+maintainers = ["Eli Chadwick <eli.chadwick@manchester.ac.uk>"]
+license = "Apache-2.0"
 readme = "README.md"
-authors = [
-  {name = "Eli Chadwick", email = "eli.chadwick@manchester.ac.uk"},
-]
-maintainers = [
-  {name = "Eli Chadwick", email = "eli.chadwick@manchester.ac.uk"}
-]
-dynamic = ["version"]
-dependencies = [
-    "zenodo-client>=0.3.4",
-    "rocrate",
-]
-requires-python = ">= 3.8"
-license = {file = "LICENSE"}
+homepage = "https://www.researchobject.org/ro-crate/"
+repository = "https://github.com/ResearchObject/ro-crate-uploader"
 keywords = ["rocrate", "RO-Crate"]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.8",
@@ -31,36 +26,37 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "flake8",
-    "black",
-    "pytest",
-    "pytest-cov",
-    "mypy",
-]
-build = [
-    "setuptools",
-    "build",
-    "twine",
-]
+[tool.poetry.dependencies]
+python = "^3.8.1"
+zenodo-client = "^0.3.4"
+rocrate = "^0.10.0"
 
-[project.urls]
-Homepage = "https://www.researchobject.org/ro-crate/"
-Repository = "https://github.com/ResearchObject/ro-crate-uploader"
-Issues = "https://github.com/ResearchObject/ro-crate-uploader/issues"
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+black = "^24.4.2"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+mypy = "^1.10.1"
+types-requests = "^2.32.0"
 
-[project.scripts]
-rocrate_upload = "rocrate_upload.main:cli_entry"
+[tool.poetry.scripts]
+rocrate_zenodo = "rocrate_zenodo.main:cli_entry"
+my_package_cli = 'my_package.console:run'
 
-[tool.setuptools.dynamic]
-version = {attr = "rocrate_upload.__version__"}
+[tool.poetry.urls]
+"Issues" = "https://github.com/ResearchObject/ro-crate-uploader/issues"
+
+# Testing tools
+
+## Mypy
 
 [tool.mypy]
 [[tool.mypy.overrides]]
 module = "rocrate.*"
 ignore_missing_imports = true
 
+## Pytest
+
 [tool.pytest.ini_options]
 pythonpath = "src"
-addopts = "--cov=rocrate_upload"
+addopts = "--cov=rocrate_zenodo"

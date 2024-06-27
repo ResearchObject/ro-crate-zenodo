@@ -3,8 +3,6 @@ from typing import Any
 
 import re
 import json
-import requests
-from urllib.parse import urlencode
 
 from pydantic_core import ValidationError
 from rocrate.rocrate import ROCrate
@@ -12,7 +10,7 @@ from rocrate.model.contextentity import ContextEntity
 from zenodo_client import Metadata, create_zenodo
 import logging
 
-from rocrate_upload.authors import build_zenodo_creator_list
+from rocrate_zenodo.authors import build_zenodo_creator_list
 
 logging.basicConfig(format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -37,7 +35,9 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
         license_id = get_license(license)
     except ValueError as e:
         logger.debug(str(e))
-        license_input = license["@id"] if type(license) == ContextEntity else license
+        license_input = (
+            license["@id"] if isinstance(license, ContextEntity) else license
+        )
         logger.warning(
             f"Could not find a matching license for {license_input} on Zenodo. "
             "Please enter the license manually after uploading."
@@ -75,7 +75,7 @@ def get_license(license: str | ContextEntity) -> str | None:
         return None
 
     # first, look at @id
-    if type(license) == ContextEntity:
+    if isinstance(license, ContextEntity):
         id = license["@id"].lstrip("#")
     else:
         id = license

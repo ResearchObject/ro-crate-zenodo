@@ -1,7 +1,7 @@
 import pytest
 
 from rocrate.model.contextentity import ContextEntity
-from rocrate_upload.authors import (
+from rocrate_zenodo.authors import (
     get_orcid_id_or_none,
     get_ror_id_or_none,
     get_affiliation_name,

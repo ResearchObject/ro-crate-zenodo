@@ -2,12 +2,12 @@ import pytest
 
 from rocrate.model.person import Person
 
-from rocrate_upload.authors import (
+from rocrate_zenodo.authors import (
     get_orcid_id_or_none,
     get_author_details,
     get_formatted_author_name,
 )
-from rocrate_upload.upload import (
+from rocrate_zenodo.upload import (
     build_zenodo_creator_list,
 )
 
