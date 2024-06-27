@@ -35,7 +35,7 @@ def test_get_license_fails_with_non_spdx_string(license):
 
     # Act & Assert
     with pytest.raises(ValueError):
-        res = get_license(name)
+        get_license(name)
 
 
 @pytest.mark.parametrize(
@@ -68,4 +68,4 @@ def test_get_license_from_entity_fails_if_no_spdx_uri(license):
 
     # Act & Assert
     with pytest.raises(ValueError):
-        res = get_license(entity)
+        get_license(entity)

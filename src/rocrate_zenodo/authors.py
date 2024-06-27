@@ -24,7 +24,7 @@ def build_zenodo_creator_list(authors: list[Person] | Person) -> list[Creator]:
 
 def get_author_details(person: Person) -> dict:
     """Collects details from a Person entity and returns them using Creator fields"""
-    if type(person) == str:
+    if isinstance(person, str):
         if "," not in person:
             person += ","
         return {"name": person}
@@ -79,7 +79,7 @@ def get_formatted_author_name(person: Person) -> str:
 
 def get_affiliation_name(organization: ContextEntity | str) -> str:
     # if it's free text, return as-is
-    if type(organization) == str:
+    if isinstance(organization, str):
         return organization
 
     # otherwise, we should have a ContextEntity object

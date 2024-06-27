@@ -1,10 +1,8 @@
 from unittest import TestCase
 
-from rocrate.model.person import Person
 from rocrate.rocrate import ROCrate
 
 from rocrate_zenodo.upload import (
-    build_zenodo_creator_list,
     build_zenodo_metadata_from_crate,
 )
 
