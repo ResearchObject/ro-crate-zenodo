@@ -9,7 +9,7 @@ If you do not already have `poetry` installed, install it following the [Poetry 
 Then install dependencies from `poetry.lock`:
 
 ```bash
-cd ro-crate-uploader
+cd ro-crate-zenodo
 poetry install
 ```
 

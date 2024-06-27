@@ -114,7 +114,7 @@ def upload_crate_to_zenodo(
     res = create_zenodo(
         # this is a unique key you pick that will be used to store
         # the numeric deposition ID on your local system's cache
-        # key="ro-crate-uploader",
+        # key="ro-crate-zenodo",
         data=metadata,
         paths=[
             crate_zip_path,

@@ -13,7 +13,7 @@ maintainers = ["Eli Chadwick <eli.chadwick@manchester.ac.uk>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://www.researchobject.org/ro-crate/"
-repository = "https://github.com/ResearchObject/ro-crate-uploader"
+repository = "https://github.com/ResearchObject/ro-crate-zenodo"
 keywords = ["rocrate", "RO-Crate"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -44,7 +44,7 @@ rocrate_zenodo = "rocrate_zenodo.main:cli_entry"
 my_package_cli = 'my_package.console:run'
 
 [tool.poetry.urls]
-"Issues" = "https://github.com/ResearchObject/ro-crate-uploader/issues"
+"Issues" = "https://github.com/ResearchObject/ro-crate-zenodo/issues"
 
 # Testing tools
 

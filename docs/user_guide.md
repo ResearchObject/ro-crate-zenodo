@@ -6,7 +6,7 @@
 
 Install from PyPI using `pip` or your preferred package manager:
 ```
-pip install rocrate_zenodo
+pip install rocrate-zenodo
 ```
 ### Set up a Zenodo personal access token
 
@@ -44,7 +44,7 @@ sandbox_api_token = your-sandbox-token-here
 api_token = your-token-here
 ```
 
-`ro-crate-uploader` will read this token whenever it connects to Zenodo in order to perform actions under your account. It's recommended to use the Zenodo sandbox until you're confident using `ro-crate-uploader`.
+The `rocrate-zenodo` package will read this token whenever it connects to Zenodo in order to perform actions under your account. It's recommended to use the Zenodo sandbox until you're confident using the package.
 
 ## Usage
 
@@ -65,4 +65,4 @@ rocrate_zenodo --help
 
 1. Set `givenName` and `familyName` on authors of the RO-Crate. This ensures that author names are formatted correctly in Zenodo.
 2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`. Other URIs for licenses are not currently well supported.
-3. Check your upload carefully in the Zenodo web interface before publishing. Not all metadata will be carried across from the RO-Crate, and some may be transferred incorrectly. Please [raise an issue](https://github.com/ResearchObject/ro-crate-uploader/issues/new) if you notice a discrepancy.
+3. Check your upload carefully in the Zenodo web interface before publishing. Not all metadata will be carried across from the RO-Crate, and some may be transferred incorrectly. Please [raise an issue](https://github.com/ResearchObject/ro-crate-zenodo/issues/new) if you notice a discrepancy.
