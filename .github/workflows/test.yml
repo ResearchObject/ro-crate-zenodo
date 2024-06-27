@@ -34,7 +34,7 @@ jobs:
         poetry install
     - name: Lint with mypy
       run: |
-        mypy .
+        poetry run mypy .
     - name: Test with pytest
       run: |
-        pytest
+        poetry run pytest
