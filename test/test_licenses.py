@@ -3,7 +3,7 @@ import pytest
 
 from rocrate.rocrate import ContextEntity
 
-from rocrate_upload.upload import (
+from rocrate_zenodo.upload import (
     get_license,
 )
 
