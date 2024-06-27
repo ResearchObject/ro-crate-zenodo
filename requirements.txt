@@ -1,2 +1,0 @@
-zenodo-client>=0.3.4
-rocrate

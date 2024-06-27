@@ -37,6 +37,7 @@ black = "^24.4.2"
 pytest = "^8.2.2"
 pytest-cov = "^5.0.0"
 mypy = "^1.10.1"
+types-requests = "^2.32.0"
 
 [tool.poetry.scripts]
 rocrate_zenodo = "rocrate_zenodo.main:cli_entry"
