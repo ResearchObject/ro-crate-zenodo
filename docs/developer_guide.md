@@ -1,4 +1,4 @@
-# Developer Guide - Under Construction
+# Developer Guide
 
 ## Environment
 

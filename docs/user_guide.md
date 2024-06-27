@@ -1,15 +1,14 @@
-# User Guide - Under Construction
+# User Guide
 
-## Install the project
+## Setup
 
+### Install the package
+
+Install from PyPI using `pip` or your preferred package manager:
 ```
-git clone https://github.com/ResearchObject/ro-crate-uploader.git
-cd ro-crate-uploader
-pip install -r requirements.txt
-pip install .
+pip install rocrate_zenodo
 ```
-
-## Set up a Zenodo personal access token
+### Set up a Zenodo personal access token
 
 Create a file called `~/.config/zenodo.ini` on your computer with the following contents:
 
@@ -47,7 +46,7 @@ api_token = your-token-here
 
 `ro-crate-uploader` will read this token whenever it connects to Zenodo in order to perform actions under your account. It's recommended to use the Zenodo sandbox until you're confident using `ro-crate-uploader`.
 
-## Run the code
+## Usage
 
 To upload a crate to Zenodo sandbox:
 ```
