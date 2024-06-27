@@ -49,21 +49,21 @@ api_token = your-token-here
 
 ## Run the code
 
-Run the `rocrate_zenodo` command in your terminal. Use the `-s` flag to upload to Zenodo sandbox, or omit it to upload to real Zenodo.
+To upload a crate to Zenodo sandbox:
 ```
 rocrate_zenodo -s demo/demo_crate
 ```
-Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload.
+Replace `demo/demo_crate` with the path to the RO-Crate directory you want to upload. The `-s` flag sets the destination to the Zenodo sandbox; you can omit `-s` to upload to real Zenodo.
 
 Once complete, you should see the draft record in your Zenodo dashboard.
 
-Further info:
+For further help and options, run:
 ```
 rocrate_zenodo --help
 ```
 
 ## Tips
 
-1. Set `givenName` and `familyName` on authors of the RO-Crate.
-2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`
-3. Check your upload carefully before publishing.
+1. Set `givenName` and `familyName` on authors of the RO-Crate. This ensures that author names are formatted correctly in Zenodo.
+2. Use the SPDX URI for the top-level license, e.g. `https://spdx.org/licenses/CC-BY-NC-SA-4.0.html`. Other URIs for licenses are not currently well supported.
+3. Check your upload carefully in the Zenodo web interface before publishing. Not all metadata will be carried across from the RO-Crate, and some may be transferred incorrectly. Please [raise an issue](https://github.com/ResearchObject/ro-crate-uploader/issues/new) if you notice a discrepancy.
