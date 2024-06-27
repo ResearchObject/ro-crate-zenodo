@@ -2,9 +2,11 @@
 
 ## Environment
 
+### Poetry setup
+
 If you do not already have `poetry` installed, install it following the [Poetry installation documentation](https://python-poetry.org/docs/#installation).
 
-Install dependencies:
+Then install dependencies from `poetry.lock`:
 
 ```bash
 poetry install
@@ -14,6 +16,8 @@ Activate the virtual environment:
 ```bash
 poetry shell
 ```
+
+### Zenodo access token setup
 
 Configure Zenodo access token(s) as in [user guide - Set up a Zenodo personal access token](user_guide.md#set-up-a-zenodo-personal-access-token).
 
