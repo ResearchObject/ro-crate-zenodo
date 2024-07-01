@@ -2,7 +2,7 @@
 
 Upload RO-Crates to Zenodo and automatically fill the Zenodo metadata.
 
-This package uses the legacy Zenodo API and is not compatible with other InvenioRDM instances. For RO-Crate uploads using the InvenioRDM API, use the [rocrate-invenio](https://github.com/ResearchObject/ro-crates-deposit) package instead.
+This package uses the legacy Zenodo API and is not compatible with other InvenioRDM instances. For RO-Crate uploads using the InvenioRDM API, use the [rocrate-inveniordm](https://github.com/ResearchObject/ro-crate-inveniordm) package instead.
 
 ## Setup
 
