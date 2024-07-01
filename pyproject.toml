@@ -44,7 +44,6 @@ types-requests = "^2.32.0"
 
 [tool.poetry.scripts]
 rocrate_zenodo = "rocrate_zenodo.main:cli_entry"
-my_package_cli = 'my_package.console:run'
 
 [tool.poetry.urls]
 "Issues" = "https://github.com/ResearchObject/ro-crate-zenodo/issues"
