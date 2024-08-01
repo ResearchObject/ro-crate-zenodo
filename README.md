@@ -73,4 +73,4 @@ rocrate_zenodo --help
 
 ## For Developers
 
-See the [Developer Guide](docs/developer_guide.md).
+See the [Developer Guide](https://github.com/ResearchObject/ro-crate-zenodo/blob/main/docs/developer_guide.md).
