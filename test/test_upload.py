@@ -36,6 +36,27 @@ class TestUpload(TestCase):
         # Assert
         self.assertDictEqual(expected, result_select)
 
+    def test_build_zenodo_metadata__no_author(self):
+        # Arrange
+        crate_path = "test/test_data/no_author_crate"
+        crate = ROCrate(crate_path)
+
+        expected = {
+            "title": "Demo Crate",
+            "upload_type": "dataset",
+            "description": "a demo crate for Galaxy training",
+            "creators": [],
+            "license": "cc-by-nc-sa-4.0",
+        }
+
+        # Act
+        result = build_zenodo_metadata_from_crate(crate)
+        result = result.model_dump()
+        result_select = {key: result[key] for key in result if key in expected}
+
+        # Assert
+        self.assertDictEqual(expected, result_select)
+
     def test_build_zenodo_metadata_fails_with_invalid_data(self):
         # Arrange
         crate_path = "test/test_data/invalid_data_crate"
