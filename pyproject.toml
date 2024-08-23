@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "rocrate-zenodo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Upload RO-Crates to Zenodo and automatically fill the Zenodo metadata"
 authors = [
   "Eli Chadwick <eli.chadwick@manchester.ac.uk>",

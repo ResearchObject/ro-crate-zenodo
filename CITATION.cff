@@ -1,0 +1,29 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: rocrate-zenodo
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Eli
+    family-names: Chadwick
+    affiliation: University of Manchester
+    orcid: 'https://orcid.org/0000-0002-0035-6475'
+  - given-names: Stian
+    family-names: Soiland-Reyes
+    affiliation: University of Manchester
+    orcid: 'https://orcid.org/0000-0001-9842-9718'
+repository-code: 'https://github.com/ResearchObject/ro-crate-zenodo/'
+abstract: >-
+  A Python package to upload RO-Crates to Zenodo and
+  automatically fill the Zenodo metadata.
+keywords:
+  - RO-Crate
+  - rocrate
+  - Zenodo
+license: Apache-2.0
+version: v0.1.1
+date-released: '2024-08-23'
