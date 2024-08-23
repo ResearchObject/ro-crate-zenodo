@@ -24,7 +24,7 @@ def build_zenodo_metadata_from_crate(crate: ROCrate) -> Metadata:
     """Given an RO-Crate, collect the metadata to use in Zenodo upload"""
     # retrieve author(s)
     authors = crate.root_dataset.get("author")
-    creators = build_zenodo_creator_list(authors)
+    creators = build_zenodo_creator_list(authors) if authors else []
 
     # retrieve title
     title = crate.root_dataset.get("name")
